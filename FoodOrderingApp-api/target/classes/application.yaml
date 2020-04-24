@@ -1,0 +1,23 @@
+
+server:
+  servlet:
+    port: 2022
+    contextPath: /api
+
+spring:
+
+  application:
+    name: FoodOrderingApp-api
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/zomato
+    username: postgres
+    password: admin
+
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
