@@ -22,7 +22,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @RequestMapping(value="/customer/signup",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<SignupCustomerResponse> signUpCustomer(@RequestBody SignupCustomerRequest signupCustomerRequest) {
+    public ResponseEntity<SignupCustomerResponse> signUpCustomer(@RequestBody SignupCustomerRequest signupCustomerRequest) throws SignUpRestrictedException{
 
         CustomerEntity customer = new CustomerEntity();
         customer.setUuid(UUID.randomUUID().toString());
