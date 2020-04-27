@@ -17,5 +17,10 @@ public class RestExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()),
 				HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(AuthenticationFailedException.class)
+	public ResponseEntity<ErrorResponse> authenticationFailedException(AuthenticationFailedException exe,WebRequest request) {
+		return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()),
+				HttpStatus.UNAUTHORIZED);
+	}
 
 }
