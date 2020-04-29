@@ -78,4 +78,26 @@ public class AddressService {
         return stateDAO.getStateById(uuId);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public AddressEntity deleteAddressById(String addressId) throws AddressNotFoundException {
+        if(addressId.isEmpty())
+            throw new AddressNotFoundException("ANF-005","Address id can not be empty");
+        AddressEntity addressEntity = getAddressById(addressId);
+        if(addressEntity==null)
+            throw new AddressNotFoundException("ANF-003", "No address by this id");
+        else {
+            addressDAO.deleteAddressById(addressEntity);
+            return addressEntity;
+        }
+
+    }
+
+    public AddressEntity getAddressById(String addressId){
+        try {
+            return addressDAO.getAddressById(addressId);
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
 }

@@ -83,4 +83,33 @@ public class AddressController {
         return new ResponseEntity<AddressListResponse>(response, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, path = "/address/{address_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public @ResponseBody ResponseEntity<DeleteAddressResponse> deleteAddressById(
+            @RequestHeader("authorization") final String accessToken,
+            @PathVariable final String address_id) throws AddressNotFoundException, AuthorizationFailedException {
+
+        CustomerEntity customerEntity = customerService.getCustomerByToken(accessToken);
+        boolean match = false;
+        for(AddressEntity address : customerEntity.getAddress()){
+            if(address.getUuid().equalsIgnoreCase(address_id))
+                match = true;
+        }
+        AddressEntity addressEntity = addressService.getAddressById(address_id);
+
+        if(address_id.isEmpty())
+            throw new AddressNotFoundException("ANF-005", "Address id can not be empty");
+
+        if(addressEntity==null)
+            throw new AddressNotFoundException("ANF-003", "No address by this id");
+
+        if(!match)
+            throw new AddressNotFoundException("ATHR-004", "You are not authorized to view/update/delete any one else's address");
+
+        AddressEntity deletedEntity = addressService.deleteAddressById(address_id);
+
+        return new ResponseEntity<DeleteAddressResponse>(
+                new DeleteAddressResponse().id(UUID.fromString(deletedEntity.getUuid())).
+                        status("ADDRESS DELETED SUCCESSFULLY"),HttpStatus.OK);
+    }
+
 }

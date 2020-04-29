@@ -24,4 +24,14 @@ public class AddressDAO {
         return customerAddressEntity;
     }
 
+    public AddressEntity getAddressById(String addressId){
+        try {
+            return entityManager.createNamedQuery("getAddressById", AddressEntity.class).setParameter("addressuuid", addressId).getSingleResult();
+        } catch(NoResultException nre) {
+            return null;
+        }
+    }
+    public void deleteAddressById(AddressEntity address) {
+        entityManager.remove(address);
+    }
 }
