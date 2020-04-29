@@ -5,6 +5,7 @@ com\upgrad\FoodOrderingApp\api\model\DeleteAddressResponse.class
 io\swagger\configuration\HomeController.class
 com\upgrad\FoodOrderingApp\api\model\ItemList$ItemTypeEnum.class
 com\upgrad\FoodOrderingApp\api\model\UpdatePasswordRequest.class
+com\upgrad\FoodOrderingApp\api\controller\AddressController.class
 io\swagger\api\ApiResponseMessage.class
 com\upgrad\FoodOrderingApp\api\model\RestaurantDetailsResponseAddress.class
 com\upgrad\FoodOrderingApp\api\model\CategoryDetailsResponse.class
@@ -21,6 +22,7 @@ com\upgrad\FoodOrderingApp\api\FoodOrderingAppApiApplication.class
 com\upgrad\FoodOrderingApp\api\model\AddressListResponse.class
 com\upgrad\FoodOrderingApp\api\model\RestaurantListResponse.class
 io\swagger\Swagger2SpringBoot$ExitException.class
+com\upgrad\FoodOrderingApp\api\exception\RestExceptionHandler.class
 com\upgrad\FoodOrderingApp\api\model\RestaurantList.class
 com\upgrad\FoodOrderingApp\api\model\CategoriesListResponse.class
 com\upgrad\FoodOrderingApp\api\model\LoginResponse.class
@@ -33,3 +35,4 @@ com\upgrad\FoodOrderingApp\api\model\CategoryList.class
 com\upgrad\FoodOrderingApp\api\model\CategoryListResponse.class
 com\upgrad\FoodOrderingApp\api\model\UpdatePasswordResponse.class
 com\upgrad\FoodOrderingApp\api\model\AddressListState.class
+com\upgrad\FoodOrderingApp\api\controller\CustomerController.class

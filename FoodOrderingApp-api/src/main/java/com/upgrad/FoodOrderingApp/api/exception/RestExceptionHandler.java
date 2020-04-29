@@ -34,4 +34,10 @@ public class RestExceptionHandler {
 		return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()),
 				HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(SaveAddressException.class)
+	public ResponseEntity<ErrorResponse> invalidAddressRequestFieldException(SaveAddressException exc, WebRequest webRequest) {
+		return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
+				HttpStatus.BAD_REQUEST);
+	}
+
 }

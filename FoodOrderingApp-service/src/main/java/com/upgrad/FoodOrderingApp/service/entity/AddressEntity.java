@@ -7,7 +7,6 @@ import java.util.List;
 
 @NamedQueries({
         @NamedQuery(name = "deleteAddressById", query = "delete from AddressEntity a where a.uuid=:addressuuid"),
-        @NamedQuery(name = "archiveAddressById", query = "update AddressEntity a set a.active = 0 where a.uuid=:addressuuid"),
         @NamedQuery(name = "getAddressById", query = "select a from AddressEntity a where a.uuid=:addressuuid")
 })
 
@@ -40,8 +39,8 @@ public class AddressEntity {
     @Size(max = 30)
     private String pincode;
 
-    @Column(name = "ACTIVE")
-    private int active;
+//    @Column(name = "ACTIVE")
+//    private int active;
 
 //    @OneToOne(mappedBy = "addressEntity")
 //    private RestaurantEntity restaurantEntity;
@@ -117,13 +116,13 @@ public class AddressEntity {
         this.pincode = pincode;
     }
 
-    public int getActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
-    }
+//    public int getActive() {
+//        return active;
+//    }
+//
+//    public void setActive(int active) {
+//        this.active = active;
+//    }
 
 //    public RestaurantEntity getRestaurantEntity() {
 //        return restaurantEntity;

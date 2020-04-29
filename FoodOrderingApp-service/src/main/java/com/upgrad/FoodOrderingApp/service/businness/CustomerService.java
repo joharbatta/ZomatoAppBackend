@@ -174,4 +174,22 @@ public class CustomerService {
     }
 
 
+
+    public CustomerEntity getCustomerByToken(String accessToken) throws AuthorizationFailedException {
+
+        CustomerAuthTokenEntity customerAuthTokenEntity = customerDAO.getUserAuthToken(accessToken);
+        
+        if (customerAuthTokenEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "Customer is not Logged in.");
+        }
+        if (customerAuthTokenEntity != null && customerAuthTokenEntity.getLogoutAt() != null) {
+            throw new AuthorizationFailedException("ATHR-002", "Customer is logged out. Log in again to access this endpoint.");
+        }
+        if (customerAuthTokenEntity != null && customerAuthTokenEntity.getExpiresAt().isBefore(ZonedDateTime.now())) {
+            throw new AuthorizationFailedException("ATHR-003", "Your session is expired. Log in again to access this endpoint.");
+        }
+
+        return customerAuthTokenEntity.getUser();
+    }
+
 }
