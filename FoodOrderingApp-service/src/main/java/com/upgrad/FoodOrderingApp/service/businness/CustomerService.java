@@ -6,6 +6,7 @@ import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthenticationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.SignUpRestrictedException;
+import com.upgrad.FoodOrderingApp.service.exception.UpdateCustomerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -108,6 +109,36 @@ public class CustomerService {
             customerAuthTokenEntity = customerDAO.updateUserLogOut(customerAuthTokenEntity);
             return customerAuthTokenEntity;
         }
+    }
+    @Transactional(propagation = Propagation.REQUIRED)
+    public CustomerEntity updateCustomerPassword(String oldPassword, String newPassword, String accessToken)
+            throws UpdateCustomerException, AuthorizationFailedException {
+        CustomerAuthTokenEntity customerAuthTokenEntity = customerDAO.getUserAuthToken(accessToken);
+        if (oldPassword.length()==0 || newPassword.length()==0) {
+            throw new UpdateCustomerException("UCR-003", "No field should be empty");
+        }
+        if (customerAuthTokenEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "Customer is not Logged in.");
+        }
+        if (customerAuthTokenEntity != null && customerAuthTokenEntity.getLogoutAt() != null) {
+            throw new AuthorizationFailedException("ATHR-002", "Customer is logged out. Log in again to access this endpoint.");
+        }
+        if (customerAuthTokenEntity != null && customerAuthTokenEntity.getExpiresAt().isBefore(ZonedDateTime.now())) {
+            throw new AuthorizationFailedException("ATHR-003", "Your session is expired. Log in again to access this endpoint.");
+        }
+        if (!isValidPassword(newPassword))
+        {
+            throw new UpdateCustomerException("UCR-001", "Weak password!");
+        }
+        CustomerEntity existingRecord = customerAuthTokenEntity.getUser();
+        final String encryptedOldPassword = cryptographyProvider.encrypt(oldPassword, existingRecord.getSalt());
+        if (!encryptedOldPassword.equals(existingRecord.getPassword())) {
+            throw new UpdateCustomerException("UCR-004", "Incorrect old password!");
+        }
+        final String encryptedNewPassword = cryptographyProvider.encrypt(newPassword, existingRecord.getSalt());
+        existingRecord.setPassword(encryptedNewPassword);
+        customerDAO.updateCustomerDetails(existingRecord);
+        return existingRecord;
     }
 
     private boolean isPhoneNumberExist(CustomerEntity customer) throws SignUpRestrictedException {
