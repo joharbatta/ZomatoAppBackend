@@ -31,7 +31,8 @@ public class AddressDAO {
             return null;
         }
     }
-    public void deleteAddressById(AddressEntity address) {
+    public AddressEntity deleteAddressById(AddressEntity address) {
         entityManager.remove(address);
+        return address;
     }
 }

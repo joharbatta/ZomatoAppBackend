@@ -86,8 +86,7 @@ public class AddressService {
         if(addressEntity==null)
             throw new AddressNotFoundException("ANF-003", "No address by this id");
         else {
-            addressDAO.deleteAddressById(addressEntity);
-            return addressEntity;
+           return addressDAO.deleteAddressById(addressEntity);
         }
 
     }

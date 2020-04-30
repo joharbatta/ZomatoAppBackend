@@ -10,7 +10,9 @@ import java.util.List;
 
 @NamedQueries({
         @NamedQuery(name = "deleteAddressById", query = "delete from AddressEntity a where a.uuid=:addressuuid"),
-        @NamedQuery(name = "getAddressById", query = "select a from AddressEntity a where a.uuid=:addressuuid")
+//        @NamedQuery(name = "getAddressById", query = "select a from AddressEntity a where a.uuid=:addressuuid")
+        @NamedQuery(name = "getAddressById", query = "select b from CustomerAddressEntity a inner join a.address b where " +
+                "b.uuid = :addressuuid")
 })
 
 @Entity
