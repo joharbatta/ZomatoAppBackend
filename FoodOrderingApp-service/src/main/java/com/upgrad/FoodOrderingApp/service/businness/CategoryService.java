@@ -15,6 +15,7 @@ public class CategoryService {
     private CategoryDao categoryDao;
 
     public List<CategoryEntity> getAllCategories() {
+
         return categoryDao.getAllCategories();
     }
 
