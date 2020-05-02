@@ -27,9 +27,19 @@ public class CategoryEntity {
     @Size(max = 255)
     private String category_name;
 
+    @ManyToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<RestaurantEntity> restaurant = new ArrayList<RestaurantEntity>();
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ItemEntity> item = new ArrayList<ItemEntity>();
 
+    public List<RestaurantEntity> getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(List<RestaurantEntity> restaurant) {
+        this.restaurant = restaurant;
+    }
 
     public List<ItemEntity> getItem() {
         return item;
